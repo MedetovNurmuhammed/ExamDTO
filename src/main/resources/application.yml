@@ -1,0 +1,14 @@
+error:
+    include-stacktrace: always
+server:
+    port: 8081
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: 12345
+        url: jdbc:postgresql://localhost:5431/DtoLK
+        username: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
