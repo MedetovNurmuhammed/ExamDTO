@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import peaksoft.forId.BaseEntity;
 
 
 import java.util.List;
@@ -15,21 +16,20 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Company {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_gen")
-    @SequenceGenerator(name = "company-seq", sequenceName = "id-gen", allocationSize = 1)
-    private Long id;
+@SequenceGenerator(name = "base_id_gen", sequenceName = "com_seq", allocationSize = 1)
+
+public class Company extends BaseEntity {
+    @Column(unique = true)
     private String name;
     private String country;
     private String address;
     @Column(name = "phone_number")
     private String phoneNumber;
     //*************************************************
-    @ManyToMany
+    @ManyToMany(mappedBy = "companies",cascade = CascadeType.PERSIST)
     private List<Instructor> instructors;
     //*************************************************
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE},mappedBy = "company")
     private List<Course> courses;
 //*************************************************
 

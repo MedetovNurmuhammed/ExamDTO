@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import peaksoft.forId.BaseEntity;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,16 +17,16 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Group {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_gen")
-    @SequenceGenerator(name = "group-seq", sequenceName = "id-gen", allocationSize = 1)
-    private Long id;
+@SequenceGenerator(name = "base_id_gen", sequenceName = "group_seq", allocationSize = 1)
+
+public class Group extends BaseEntity {
+    @SequenceGenerator(name = "base_id_gen", sequenceName = "group_seq", allocationSize = 1)
+@Column(unique = true)
     private String groupName;
     private String imageLink;
     private String description;
     @ManyToMany
-    private List<Course>courses;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Course>courses = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.REMOVE,CascadeType.MERGE},mappedBy = "group")
     private List<Student>students;
 }

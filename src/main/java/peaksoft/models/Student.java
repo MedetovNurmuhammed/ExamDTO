@@ -1,10 +1,12 @@
 package peaksoft.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import peaksoft.forId.BaseEntity;
 
 @Entity
 @Table(name = "students")
@@ -12,10 +14,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_gen")
-    @SequenceGenerator(name = "student-seq", sequenceName = "id-gen", allocationSize = 1)
+@SequenceGenerator(name = "base_id_gen", sequenceName = "stud_seq", allocationSize = 1)
+
+public class Student extends BaseEntity {
+
     private Long id;
     private String fullName;
     private String lastName;
@@ -23,6 +25,7 @@ public class Student {
     private String email;
     private String studyFormat;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JsonIgnore
     private Group group;
 }

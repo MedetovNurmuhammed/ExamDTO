@@ -1,11 +1,14 @@
 package peaksoft.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import peaksoft.forId.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,17 +17,16 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Instructor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_gen")
-    @SequenceGenerator(name = "instructor-seq", sequenceName = "id-gen", allocationSize = 1)
-    private Long id;
+@SequenceGenerator(name = "base_id_gen", sequenceName = "ins_seq", allocationSize = 1)
+
+public class Instructor extends BaseEntity {
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String specialization;
-    @ManyToMany
-    private List<Company>companies;
-    @OneToMany
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<Company>companies = new ArrayList<>();
+    @OneToMany(mappedBy = "instructor",cascade = CascadeType.MERGE)
     private List<Course>courses;
 }

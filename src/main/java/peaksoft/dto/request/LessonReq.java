@@ -1,2 +1,8 @@
-package peaksoft.dto.request;public class LessonReq {
+package peaksoft.dto.request;
+
+import lombok.Data;
+
+@Data
+public class LessonReq {
+    private String lessonName;
 }
